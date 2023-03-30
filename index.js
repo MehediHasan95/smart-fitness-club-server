@@ -10,6 +10,8 @@ const {
   deleteAuthCollection,
 } = require("./admin");
 const { addNotice, deleteNotice, updateNotice } = require("./Notice");
+const { addPayment } = require("./payment");
+const { createAttendence } = require("./attendence");
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -41,7 +43,11 @@ async function run() {
     addNotice(app, db);
     deleteNotice(app, db);
     updateNotice(app, db);
-    //
+
+    // payment
+
+    addPayment(app, db);
+    createAttendence(app, db);
   } finally {
   }
 }
