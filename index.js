@@ -9,9 +9,13 @@ const {
   updateAuthCollection,
   deleteAuthCollection,
 } = require("./admin");
+const stripe = require("stripe")(
+  "sk_test_51MqYWOIkb8dsmfJkGKwi0rOAvAxr1CcTbVGxs2sRuGDGLQuvVFsi33oEBcKeXIexCCRRV6Atwi5CYxL743HqdU2X00gr3WjLkv"
+);
 const { addNotice, deleteNotice, updateNotice } = require("./Notice");
-const { addPayment } = require("./payment");
 const { createAttendence } = require("./attendence");
+const { createPaymentIntents, addPayment } = require("./payment");
+const { addShareDataWithTrainer } = require("./shareWithTrainer");
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -44,9 +48,12 @@ async function run() {
     deleteNotice(app, db);
     updateNotice(app, db);
 
-    // payment
-
+    // Payment
+    createPaymentIntents(app, stripe);
     addPayment(app, db);
+    addShareDataWithTrainer(app, db);
+
+    // Attandance
     createAttendence(app, db);
   } finally {
   }

@@ -11,6 +11,7 @@ const createUser = (app, auth, db) => {
       .then((userRecord) => {
         db.collection("authCollection").doc(userRecord.uid).set({
           role: body.role,
+          docRef: body.docRef,
           displayName: body.displayName,
           email: body.email,
           create: body.create,
@@ -20,6 +21,7 @@ const createUser = (app, auth, db) => {
         res.send(userRecord);
       })
       .catch((error) => {
+        console.log(error);
         res.send(error);
       });
   });
